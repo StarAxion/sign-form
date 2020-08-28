@@ -25,7 +25,9 @@ class SignIn extends Component {
   componentDidMount() {
     let email = sessionStorage.getItem('email'),
       password = sessionStorage.getItem('password');
-    this.setState({ email, password });
+    if (email && password) {
+      this.setState({ email, password });
+    }
   }
 
   render() {
