@@ -3,29 +3,48 @@ import { useHistory } from 'react-router-dom';
 import Header from './Header';
 
 const UserProfile = () => {
-  //const [userFirstName, setUserFirstName] = useState(null);
-  //const [userLastName, setUserLastName] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
-  //const [userPassword, setUserPassword] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
-    setUserEmail(localStorage.getItem('authorized'));
+    const userKey = localStorage.getItem('authorized');
+    const userData = JSON.parse(localStorage.getItem(userKey));
+
+    setFirstName(userData.firstName);
+    setLastName(userData.lastName);
+    setEmail(userData.email);
+    setPassword(userData.password);
   }, []);
 
   const history = useHistory();
 
   const logOut = () => {
-    history.push('./');
+    history.push('/');
   }
 
   return (
     <>
       <Header logOut={logOut} />
       <div className='profile'>
-        <p className='profile__userdata'>First name: </p>
-        <p className='profile__userdata'>Last name: </p>
-        <p className='profile__userdata'>Email: {userEmail}</p>
-        <p className='profile__userdata'>Password: </p>
+        <input
+          type='text'
+          name='firstName'
+          className='profile__input'
+          defaultValue={firstName}
+          readOnly={false}
+          autoComplete='off'
+        />
+
+        <input
+          type='text'
+          name='lastName'
+          className='profile__input'
+          defaultValue={lastName}
+          readOnly={true}
+          autoComplete='off'
+        />
       </div>
     </>
   )

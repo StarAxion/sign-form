@@ -21,7 +21,7 @@ const SignIn = () => {
     try {
       if (loginData.password === JSON.parse(localStorage.getItem(loginData.email)).password) {
         localStorage.setItem('authorized', loginData.email);
-        history.push('./');
+        history.push('/');
       } else {
         setError(true);
       }
@@ -60,8 +60,8 @@ const SignIn = () => {
           onChange={handleChange}
         />
 
-        {error ?
-          <p className='signform__message'>Incorrect email or password.</p> : null
+        {error &&
+          <p className='signform__message'>Incorrect email or password.</p>
         }
 
         <button

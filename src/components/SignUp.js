@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Header from './Header';
 
 const SignUp = () => {
-  const [user, setUser] = useState({
+  const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
     email: '',
@@ -14,17 +14,17 @@ const SignUp = () => {
   const history = useHistory();
 
   const handleChange = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setNewUser({ ...newUser, [event.target.name]: event.target.value });
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (localStorage.getItem(user.email)) {
+    if (localStorage.getItem(newUser.email)) {
       setError(true);
     } else {
-      localStorage.setItem(user.email, JSON.stringify(user));
-      history.push('./signin');
+      localStorage.setItem(newUser.email, JSON.stringify(newUser));
+      history.push('/signin');
     }
   }
 
@@ -67,8 +67,8 @@ const SignUp = () => {
           onChange={handleChange}
         />
 
-        {error ?
-          <p className='signform__message'>This email is already in use.</p> : null
+        {error &&
+          <p className='signform__message'>This email is already in use.</p>
         }
 
         <input

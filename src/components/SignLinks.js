@@ -2,39 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const SignLinks = (props) => {
-  const [userEmail, setUserEmail] = useState(null);
+  const [userKey, setUserKey] = useState(null);
 
   useEffect(() => {
-    setUserEmail(localStorage.getItem('authorized'));
+    setUserKey(localStorage.getItem('authorized'));
   }, []);
 
   const logOut = () => {
     localStorage.removeItem('authorized');
-    setUserEmail(null);
-    props.logOut();
+
+    try {
+      props.logOut();
+    } catch {
+      setUserKey(null);
+    }
   }
 
   const getProfileName = () => {
-    return userEmail.slice(0, userEmail.indexOf('@'));
+    return userKey.slice(0, userKey.indexOf('@'));
   }
 
-  if (userEmail) {
-    return (
-      <div>
+  return (<div>
+    {userKey ?
+      <>
         <Link to='/profile'>{getProfileName()}</Link>
         <span className='separator'>&#124;</span>
         <button className='signlink' onClick={logOut}>Log out</button >
-      </div>
-    )
-  } else {
-    return (
-      <div>
+      </> :
+      <>
         <Link className='signlink' to='/signin'>Sign in</Link>
         <span className='separator'>&#124;</span>
         <Link className='signlink' to='/signup'>Sign up</Link>
-      </div>
-    )
-  }
+      </>
+    }
+  </div>)
 }
 
 export default SignLinks;

@@ -87,7 +87,7 @@ header {
   border-color: #61dafb;
 }
 
-input:not(:placeholder-shown) {
+.signform__input:not(:placeholder-shown) {
   background-color: #ffffff;
   border-color: #61dafb;
 }
@@ -123,14 +123,25 @@ input:not(:placeholder-shown) {
 }
 
 .profile {
+  display: flex;
+  flex-direction: column;    
+  align-items: center;
   max-width: 500px;
   margin: 50px auto;
   padding: 20px;
-  text-align: center;
   border: 5px solid #61dafb;
   border-radius: 30px;
 }
 
-.profile__userdata {
-  margin: 20px 0;
+.profile__input {
+  width: 60%;
+  margin: 20px;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: center;
+  background-color: #61dafb;
+  border: 5px solid #ffffff;
+  border-radius: 15px;
+  outline: none;
 }
