@@ -1,39 +1,38 @@
-import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Header from './Header';
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      registered: false,
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: ''
+const SignUp = () => {
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
+
+  const [error, setError] = useState(false);
+  const history = useHistory();
+
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (localStorage.getItem(user.email)) {
+      setError(true);
+    } else {
+      localStorage.setItem(user.email, JSON.stringify(user));
+      history.push('./signin');
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value });
-  }
+  return (
+    <>
+      <Header />
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.setState({ registered: true });
-    sessionStorage.setItem('email', this.state.email);
-    sessionStorage.setItem('password', this.state.password);
-  }
-
-  render() {
-    if (this.state.registered) {
-      return <Redirect to='/signin' />;
-    }
-
-    return (
-      <form className='signform' onSubmit={this.handleSubmit}>
+      <form className='signform' onSubmit={handleSubmit}>
         <h2 className='signform__title'>Welcome!</h2>
 
         <div className='signform__group'>
@@ -43,38 +42,42 @@ class SignUp extends Component {
 
         <input
           type='text'
-          id='firstName'
+          name='firstName'
           className='signform__input'
           placeholder='First name'
           required
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
 
         <input
           type='text'
-          id='lastName'
+          name='lastName'
           className='signform__input'
           placeholder='Last name'
           required
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
 
         <input
           type='email'
-          id='email'
+          name='email'
           className='signform__input'
           placeholder='Email'
           required
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
+
+        {error ?
+          <p className='signform__message'>This email is already in use.</p> : null
+        }
 
         <input
           type='password'
-          id='password'
+          name='password'
           className='signform__input'
           placeholder='Password'
           required
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
 
         <button
@@ -82,11 +85,10 @@ class SignUp extends Component {
           type='submit'
         >
           Sign up
-        </button>
-      </form >
-    )
-  }
-
+          </button>
+      </form>
+    </>
+  )
 }
 
 export default SignUp;

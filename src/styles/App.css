@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-.header {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,7 +36,7 @@
   flex-direction: column;    
   align-items: center;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 50px auto;
   padding: 30px 20px;
   border: 5px solid #61dafb;
   border-radius: 30px;
@@ -64,6 +64,7 @@
 }
 
 .signform__input {
+  width: 60%;
   margin: 0 0 20px;
   padding: 10px 15px;
   font-family: inherit;
@@ -91,6 +92,12 @@ input:not(:placeholder-shown) {
   border-color: #61dafb;
 }
 
+.signform__message {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #ff0000;
+}
+
 .signform__button {
   margin: 30px 0 0;
   padding: 10px 20px;
@@ -113,4 +120,17 @@ input:not(:placeholder-shown) {
 
 .nopage__text {
   margin-bottom: 40px;
+}
+
+.profile {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+  border: 5px solid #61dafb;
+  border-radius: 30px;
+}
+
+.profile__userdata {
+  margin: 20px 0;
 }

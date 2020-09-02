@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SignLinks from './SignLinks';
 
-const Header = () => (
-  <header className='header'>
+const Header = (props) => (
+  <header>
     <Link className='homelink' to='/'>Home</Link>
-    <SignLinks />
+    <SignLinks logOut={props.logOut} />
   </header>
 )
 

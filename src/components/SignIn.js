@@ -1,42 +1,40 @@
-import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Header from './Header';
 
-class SignIn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      authorized: false,
-      email: '',
-      password: ''
-    }
+const SignIn = () => {
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: ''
+  });
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+  const [error, setError] = useState(false);
+  const history = useHistory();
+
+  const handleChange = (event) => {
+    setLoginData({ ...loginData, [event.target.name]: event.target.value });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    let email = e.target.querySelector('#email').value,
-      password = e.target.querySelector('#password').value;
-    if (email === this.state.email && password === this.state.password) {
-      this.setState({ authorized: true });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    try {
+      if (loginData.password === JSON.parse(localStorage.getItem(loginData.email)).password) {
+        localStorage.setItem('authorized', loginData.email);
+        history.push('./');
+      } else {
+        setError(true);
+      }
+    } catch {
+      setError(true);
     }
   }
 
-  componentDidMount() {
-    let email = sessionStorage.getItem('email'),
-      password = sessionStorage.getItem('password');
-    if (email && password) {
-      this.setState({ email, password });
-    }
-  }
+  return (
+    <>
+      <Header />
 
-  render() {
-    if (this.state.authorized) {
-      return <Redirect to='/' />;
-    }
-
-    return (
-      <form className='signform' onSubmit={this.handleSubmit}>
+      <form className='signform' onSubmit={handleSubmit}>
         <h2 className='signform__title'>Welcome back!</h2>
 
         <div className='signform__group'>
@@ -46,29 +44,35 @@ class SignIn extends Component {
 
         <input
           type='email'
-          id='email'
+          name='email'
           className='signform__input'
           placeholder='Email'
           required
+          onChange={handleChange}
         />
 
         <input
           type='password'
-          id='password'
+          name='password'
           className='signform__input'
           placeholder='Password'
           required
+          onChange={handleChange}
         />
+
+        {error ?
+          <p className='signform__message'>Incorrect email or password.</p> : null
+        }
 
         <button
           className='signform__button'
           type='submit'
         >
           Sign in
-        </button>
+          </button>
       </form>
-    )
-  }
+    </>
+  )
 }
 
 export default SignIn;
