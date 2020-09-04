@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: calc(10px + 2vmin);
 }
 
 p {
@@ -12,12 +13,31 @@ p {
   padding: 0;
 }
 
-button {
-  padding: 0;
+input {
+  width: 60%;
+  padding: 10px 15px;
   font-family: inherit;
   font-size: inherit;
+  text-align: center;
+  color: #000000;
+  background-color: #61dafb;
+  border: 5px solid #ffffff;
+  border-radius: 15px;
+  outline: none;
+}
+
+input:focus {
+  background-color: #ffffff;
+}
+
+button {
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: inherit;
+  text-transform: uppercase;
   background-color: transparent;
-  border: none;
+  border: 5px solid #ffffff;
+  border-radius: 15px;
   outline: none;
   cursor: pointer;
 }
@@ -27,6 +47,6 @@ a, button {
   color: #ffffff;
 }
 
-a:hover, button:hover {
+a:hover {
   color: #61dafb;
 }

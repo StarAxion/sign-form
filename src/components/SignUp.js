@@ -32,7 +32,10 @@ const SignUp = () => {
     <>
       <Header />
 
-      <form className='signform' onSubmit={handleSubmit}>
+      <form
+        className='signform'
+        onSubmit={handleSubmit}
+      >
         <h2 className='signform__title'>Welcome!</h2>
 
         <div className='signform__group'>
@@ -68,7 +71,7 @@ const SignUp = () => {
         />
 
         {error &&
-          <p className='signform__message'>This email is already in use.</p>
+          <p className='error-message'>This email is already in use.</p>
         }
 
         <input
@@ -81,11 +84,11 @@ const SignUp = () => {
         />
 
         <button
-          className='signform__button'
           type='submit'
+          className='signform__button'
         >
           Sign up
-          </button>
+        </button>
       </form>
     </>
   )

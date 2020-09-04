@@ -34,7 +34,10 @@ const SignIn = () => {
     <>
       <Header />
 
-      <form className='signform' onSubmit={handleSubmit}>
+      <form
+        className='signform'
+        onSubmit={handleSubmit}
+      >
         <h2 className='signform__title'>Welcome back!</h2>
 
         <div className='signform__group'>
@@ -61,15 +64,15 @@ const SignIn = () => {
         />
 
         {error &&
-          <p className='signform__message'>Incorrect email or password.</p>
+          <p className='error-message'>Incorrect email or password.</p>
         }
 
         <button
-          className='signform__button'
           type='submit'
+          className='signform__button'
         >
           Sign in
-          </button>
+        </button>
       </form>
     </>
   )

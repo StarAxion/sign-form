@@ -18,16 +18,17 @@ const SignLinks = (props) => {
     }
   }
 
-  const getProfileName = () => {
-    return userKey.slice(0, userKey.indexOf('@'));
+  const getUserFullName = () => {
+    const userData = JSON.parse(localStorage.getItem(userKey));
+    return `${userData.firstName} ${userData.lastName}`;
   }
 
   return (<div>
     {userKey ?
       <>
-        <Link to='/profile'>{getProfileName()}</Link>
+        <Link to='/profile'>{getUserFullName()}</Link>
         <span className='separator'>&#124;</span>
-        <button className='signlink' onClick={logOut}>Log out</button >
+        <button className='logout' onClick={logOut}>Log out</button >
       </> :
       <>
         <Link className='signlink' to='/signin'>Sign in</Link>

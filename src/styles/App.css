@@ -1,13 +1,12 @@
 .container {
   min-height: 100vh;
   padding: 20px 40px;
-  font-size: calc(10px + 2vmin);
   color: #ffffff;
   background-color: #282c34;
   box-sizing: border-box;
 }
 
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,9 +34,9 @@ header {
   display: flex;
   flex-direction: column;    
   align-items: center;
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 30px 20px;
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px 20px;
   border: 5px solid #61dafb;
   border-radius: 30px;
 }
@@ -51,7 +50,7 @@ header {
 .signform__group {
   display: flex;
   align-items: center;
-  margin: 0 0 30px;
+  margin: 0 0 40px;
 }
 
 .signform__group p {
@@ -64,16 +63,7 @@ header {
 }
 
 .signform__input {
-  width: 60%;
   margin: 0 0 20px;
-  padding: 10px 15px;
-  font-family: inherit;
-  font-size: inherit;
-  text-align: center;
-  background-color: #61dafb;
-  border: 5px solid #ffffff;
-  border-radius: 15px;
-  outline: none;
 }
 
 .signform__input::placeholder {
@@ -83,7 +73,6 @@ header {
 }
 
 .signform__input:focus {
-  background-color: #ffffff;
   border-color: #61dafb;
 }
 
@@ -92,14 +81,8 @@ header {
   border-color: #61dafb;
 }
 
-.signform__message {
-  margin-bottom: 20px;
-  font-style: italic;
-  color: #ff0000;
-}
-
 .signform__button {
-  margin: 30px 0 0;
+  margin: 20px 0 0;
   padding: 10px 20px;
   text-transform: uppercase;
   text-decoration: none;
@@ -113,6 +96,126 @@ header {
   border-color: #61dafb;
 }
 
+.profile-form {
+  display: flex;
+  flex-direction: column;    
+  align-items: center;
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px 20px;
+  text-align: center;
+  border: 5px solid #61dafb;
+  border-radius: 30px;
+}
+
+.profile-form__label {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.profile-form__input {
+  margin: 20px calc(20% - 20px);
+  border-color: #61dafb;
+}
+
+.profile-form__button {
+  margin: 20px 10px 0;
+}
+
+.profile-form__button:hover {
+  background-color: #61dafb;
+}
+
+.confirm-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 40px 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.modal-content {
+  position: relative;
+  top: 25%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px 0;
+  text-align: center;
+  border: 5px solid #ffffff;
+  border-radius: 30px;
+  box-shadow: 5px 5px 0 #000000, -5px -5px 0 #000000, 5px -5px 0 #000000, -5px 5px 0 #000000;
+}
+
+.modal-header {
+  padding: 0 0 20px;
+  border-bottom: 5px solid #ffffff;
+}
+
+.modal-content__title {
+  margin: 0;
+  letter-spacing: 5px;
+}
+
+.modal-main {
+  padding: 20px 20px 0;
+}
+
+.modal-content__input {
+  margin: 20px 0;
+  background-color: #ffffff;
+}
+
+.modal-footer {
+  padding: 0 20px;
+}
+
+.modal-content__button {
+  margin: 10px;
+  letter-spacing: 1px;
+  border-color: #000000;
+}
+
+.modal-content__submit-button {
+  background-color: #800000;
+}
+
+.modal-content__submit-button:hover {
+  color: #000000;
+  background-color: #ff0000;
+  box-shadow: 5px 5px 5px #ffffff, -5px -5px 5px #ffffff, 5px -5px 5px #ffffff, -5px 5px 5px #ffffff;
+}
+
+.modal-content__cancel-button {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+.modal-content__cancel-button:hover {
+  color: #ffffff;
+  background-color: transparent;
+  box-shadow: 5px 5px 5px #ffffff, -5px -5px 5px #ffffff, 5px -5px 5px #ffffff, -5px 5px 5px #ffffff;
+}
+
+.error-message {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #ff0000;
+}
+
+.logout {
+  padding: 0;
+  text-transform: none;
+  border: none;
+}
+
+.logout:hover {
+  color: #61dafb;
+}
+
 .nopage {
   padding: 20px 0;
   text-align: center;
@@ -120,28 +223,4 @@ header {
 
 .nopage__text {
   margin-bottom: 40px;
-}
-
-.profile {
-  display: flex;
-  flex-direction: column;    
-  align-items: center;
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 5px solid #61dafb;
-  border-radius: 30px;
-}
-
-.profile__input {
-  width: 60%;
-  margin: 20px;
-  padding: 10px 15px;
-  font-family: inherit;
-  font-size: inherit;
-  text-align: center;
-  background-color: #61dafb;
-  border: 5px solid #ffffff;
-  border-radius: 15px;
-  outline: none;
 }
