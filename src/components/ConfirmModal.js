@@ -1,13 +1,13 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 const ConfirmModal = (props) => {
   const [error, setError] = useState(false);
-  const inputRef = createRef();
+  const passwordRef = useRef(null);
 
   const checkPassword = (event) => {
     event.preventDefault();
 
-    if (inputRef.current.value === props.userPassword) {
+    if (passwordRef.current.value === props.userPassword) {
       props.deleteProfile();
     } else {
       setError(true);
@@ -39,11 +39,11 @@ const ConfirmModal = (props) => {
             className='modal-content__input'
             placeholder='Password'
             required
-            ref={inputRef}
+            ref={passwordRef}
           />
 
           {error &&
-            <p className='error-message'>Incorrect password!</p>
+            <p className='error-message'>Incorrect password.</p>
           }
         </div>
 

@@ -29,7 +29,8 @@ const SignLinks = (props) => {
         <Link to='/profile'>{getUserFullName()}</Link>
         <span className='separator'>&#124;</span>
         <button className='logout' onClick={logOut}>Log out</button >
-      </> :
+      </>
+      :
       <>
         <Link className='signlink' to='/signin'>Sign in</Link>
         <span className='separator'>&#124;</span>

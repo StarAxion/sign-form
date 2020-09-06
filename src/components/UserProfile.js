@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../assets/fontawesome-free-5.14.0-web/css/all.min.css';
 import Header from './Header';
@@ -24,14 +24,37 @@ const UserProfile = () => {
     setPassword(userData.password);
   }, [userData]);
 
+  const firstNameRef = useRef(null);
+  const lastNameRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const history = useHistory();
 
   const logOut = () => {
     history.push('/');
   }
 
-  const editData = () => {
+  const unlockEdit = (event) => {
+    event.preventDefault();
     setEditIsBlocked(false);
+  }
+
+  const saveChanges = (event) => {
+    event.preventDefault();
+
+    const newData = {
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
+      email,
+      password: passwordRef.current.value
+    };
+
+    localStorage.setItem(userKey, JSON.stringify(newData));
+    setEditIsBlocked(true);
+  }
+
+  const cancelChanges = () => {
+    setEditIsBlocked(true);
   }
 
   const openModal = () => {
@@ -52,49 +75,79 @@ const UserProfile = () => {
     <>
       <Header logOut={logOut} />
 
-      <form className='profile-form'>
+      <form
+        className='profile'
+        onSubmit={saveChanges}
+        onReset={cancelChanges}
+      >
         <ProfileData
+          name='firstName'
           inputId='firstName'
           label='First name'
           data={firstName}
           access={editIsBlocked}
+          ref={firstNameRef}
         />
         <ProfileData
+          name='lastName'
           inputId='lastName'
           label='Last name'
           data={lastName}
           access={editIsBlocked}
+          ref={lastNameRef}
         />
         <ProfileData
+          name='email'
           inputId='email'
           label='Email'
           data={email}
           access={true}
         />
         <ProfileData
+          name='password'
           inputId='password'
           label='Password'
           data={password}
           access={editIsBlocked}
+          ref={passwordRef}
         />
 
         <div>
-          <button
-            type='button'
-            className='profile-form__button'
-            title='edit profile'
-            onClick={editData}
-          >
-            <i className='fas fa-pen'></i>
-          </button>
-          <button
-            type='button'
-            className='profile-form__button'
-            title='delete profile'
-            onClick={openModal}
-          >
-            <i className='fas fa-trash'></i>
-          </button>
+          {editIsBlocked ?
+            <>
+              <button
+                type='button'
+                className='profile__button'
+                title='edit profile'
+                onClick={unlockEdit}
+              >
+                <i className='fas fa-pen'></i>
+              </button>
+              <button
+                type='button'
+                className='profile__button'
+                title='delete profile'
+                onClick={openModal}
+              >
+                <i className='fas fa-trash'></i>
+              </button>
+            </>
+            :
+            <>
+              <button
+                type='submit'
+                className='profile__button'
+              >
+                Save
+              </button>
+              <button
+                type='reset'
+                className='profile__button'
+              >
+                Cancel
+              </button>
+            </>
+          }
         </div>
       </form>
 

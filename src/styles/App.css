@@ -96,7 +96,7 @@
   border-color: #61dafb;
 }
 
-.profile-form {
+.profile {
   display: flex;
   flex-direction: column;    
   align-items: center;
@@ -108,21 +108,21 @@
   border-radius: 30px;
 }
 
-.profile-form__label {
+.profile__label {
   font-weight: 700;
   letter-spacing: 1px;
 }
 
-.profile-form__input {
+.profile__input {
   margin: 20px calc(20% - 20px);
   border-color: #61dafb;
 }
 
-.profile-form__button {
+.profile__button {
   margin: 20px 10px 0;
 }
 
-.profile-form__button:hover {
+.profile__button:hover {
   background-color: #61dafb;
 }
 
