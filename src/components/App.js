@@ -2,11 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import '../styles/App.css';
 import Home from './Home';
-import { PrivateRoute } from './PrivateRoute';
 import UserProfile from './UserProfile';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import NoPage from './NoPage';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 const App = () => (
   <Router>
@@ -14,8 +15,8 @@ const App = () => (
       <Switch>
         <Route exact path='/' component={Home} />
         <PrivateRoute exact path='/profile' component={UserProfile} />
-        <Route exact path='/signin' component={SignIn} />
-        <Route exact path='/signup' component={SignUp} />
+        <PublicRoute exact path='/signin' component={SignIn} />
+        <PublicRoute exact path='/signup' component={SignUp} />
         <Route render={() => <NoPage />} />
       </Switch>
     </div>
