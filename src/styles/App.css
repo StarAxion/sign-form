@@ -63,7 +63,7 @@
 }
 
 .signform__input {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
 }
 
 .signform__input::placeholder {
@@ -114,7 +114,7 @@
 }
 
 .profile__input {
-  margin: 20px calc(20% - 20px);
+  margin: 20px calc(20% - 20px) 10px;
   border-color: #61dafb;
 }
 
@@ -202,6 +202,7 @@
 
 .error-message {
   margin-bottom: 20px;
+  text-align: center;
   font-style: italic;
   color: #ff0000;
 }

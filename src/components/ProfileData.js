@@ -7,19 +7,19 @@ const ProfileData = forwardRef((props, ref) => (
       htmlFor={props.inputId}
     >
       {props.label}:
-      </label>
+    </label>
 
     <input
       type='text'
       name={props.name}
       id={props.inputId}
       className='profile__input'
-      defaultValue={props.data}
+      defaultValue={props.value}
       readOnly={props.access}
       disabled={props.access}
+      ref={ref}
       autoComplete='off'
       required
-      ref={ref}
     />
   </>
 ))

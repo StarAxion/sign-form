@@ -6,23 +6,26 @@ import ProfileData from './ProfileData';
 import ConfirmModal from './ConfirmModal';
 
 const UserProfile = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
 
   const [editIsBlocked, setEditIsBlocked] = useState(true);
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   const userKey = localStorage.getItem('authorized');
-  const userData = JSON.parse(localStorage.getItem(userKey));
 
   useEffect(() => {
-    setFirstName(userData.firstName);
-    setLastName(userData.lastName);
-    setEmail(userData.email);
-    setPassword(userData.password);
-  }, [userData]);
+    const userData = JSON.parse(localStorage.getItem(userKey));
+    for (let prop in userData) {
+      setUser((data) => ({
+        ...data, [prop]: userData[prop]
+      }));
+    }
+  }, [userKey]);
 
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
@@ -45,7 +48,7 @@ const UserProfile = () => {
     const newData = {
       firstName: firstNameRef.current.value,
       lastName: lastNameRef.current.value,
-      email,
+      email: user.email,
       password: passwordRef.current.value
     };
 
@@ -84,7 +87,7 @@ const UserProfile = () => {
           name='firstName'
           inputId='firstName'
           label='First name'
-          data={firstName}
+          value={user.firstName}
           access={editIsBlocked}
           ref={firstNameRef}
         />
@@ -92,7 +95,7 @@ const UserProfile = () => {
           name='lastName'
           inputId='lastName'
           label='Last name'
-          data={lastName}
+          value={user.lastName}
           access={editIsBlocked}
           ref={lastNameRef}
         />
@@ -100,14 +103,14 @@ const UserProfile = () => {
           name='email'
           inputId='email'
           label='Email'
-          data={email}
+          value={user.email}
           access={true}
         />
         <ProfileData
           name='password'
           inputId='password'
           label='Password'
-          data={password}
+          value={user.password}
           access={editIsBlocked}
           ref={passwordRef}
         />
@@ -155,7 +158,7 @@ const UserProfile = () => {
         <ConfirmModal
           close={closeModal}
           deleteProfile={deleteProfile}
-          userPassword={password}
+          userPassword={user.password}
         />
       }
     </>

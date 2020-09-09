@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Header from './Header';
+import useValidation from '../hooks/validation.hook';
+import validationRules from '../validation/signUpRules';
 
 const SignUp = () => {
   const [newUser, setNewUser] = useState({
@@ -10,8 +12,11 @@ const SignUp = () => {
     password: ''
   });
 
-  const [error, setError] = useState(false);
+  const [emailInUse, setEmailInUse] = useState(false);
+
   const history = useHistory();
+
+  const { errors, validate } = useValidation(newUser, validationRules);
 
   const handleChange = (event) => {
     setNewUser({ ...newUser, [event.target.name]: event.target.value });
@@ -20,8 +25,12 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    if (Object.keys(validate()).length) {
+      return;
+    }
+
     if (localStorage.getItem(newUser.email)) {
-      setError(true);
+      setEmailInUse(true);
     } else {
       localStorage.setItem(newUser.email, JSON.stringify(newUser));
       history.push('/signin');
@@ -48,30 +57,38 @@ const SignUp = () => {
           name='firstName'
           className='signform__input'
           placeholder='First name'
-          required
           onChange={handleChange}
         />
+
+        <p className='error-message'>{errors.firstName}</p>
 
         <input
           type='text'
           name='lastName'
           className='signform__input'
           placeholder='Last name'
-          required
           onChange={handleChange}
         />
+
+        <p className='error-message'>{errors.lastName}</p>
 
         <input
           type='email'
           name='email'
           className='signform__input'
           placeholder='Email'
-          required
           onChange={handleChange}
         />
 
-        {error &&
-          <p className='error-message'>This email is already in use.</p>
+        <p className='error-message'>{errors.email}</p>
+
+        {emailInUse &&
+          <p
+            className='error-message'
+            style={{ marginTop: '-20px' }}
+          >
+            This email is already in use.
+          </p>
         }
 
         <input
@@ -79,9 +96,10 @@ const SignUp = () => {
           name='password'
           className='signform__input'
           placeholder='Password'
-          required
           onChange={handleChange}
         />
+
+        <p className='error-message'>{errors.password}</p>
 
         <button
           type='submit'

@@ -1,16 +1,37 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import useValidation from '../hooks/validation.hook';
+import validationRules from '../validation/signInRules';
 
 const ConfirmModal = (props) => {
-  const [error, setError] = useState(false);
+  const [userCheck, setUserCheck] = useState({
+    password: ''
+  });
+
+  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+
   const passwordRef = useRef(null);
+
+  useEffect(() => {
+    passwordRef.current.focus();
+  }, []);
+
+  const { errors, validate } = useValidation(userCheck, validationRules);
+
+  const handleChange = (event) => {
+    setUserCheck({ password: event.target.value });
+  }
 
   const checkPassword = (event) => {
     event.preventDefault();
 
-    if (passwordRef.current.value === props.userPassword) {
+    if (Object.keys(validate()).length) {
+      return;
+    }
+
+    if (userCheck.password === props.userPassword) {
       props.deleteProfile();
     } else {
-      setError(true);
+      setPasswordIsIncorrect(true);
     }
   }
 
@@ -31,19 +52,27 @@ const ConfirmModal = (props) => {
             htmlFor='confirm-password'
           >
             Enter your password to continue:
-        </label>
+          </label>
+
           <input
             type='password'
             name='password'
             id='confirm-password'
             className='modal-content__input'
             placeholder='Password'
-            required
             ref={passwordRef}
+            onChange={handleChange}
           />
 
-          {error &&
-            <p className='error-message'>Incorrect password.</p>
+          <p className='error-message'>{errors.password}</p>
+
+          {passwordIsIncorrect &&
+            <p
+              className='error-message'
+              style={{ marginTop: '-20px' }}
+            >
+              Incorrect password.
+            </p>
           }
         </div>
 
@@ -54,6 +83,7 @@ const ConfirmModal = (props) => {
           >
             Execute
           </button>
+
           <button
             type='reset'
             className='modal-content__button modal-content__cancel-button'
