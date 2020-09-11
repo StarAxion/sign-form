@@ -1,37 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useForm from '../hooks/form.hook';
 import useValidation from '../hooks/validation.hook';
 import validationRules from '../validation/signInRules';
 
 const ConfirmModal = (props) => {
-  const [userCheck, setUserCheck] = useState({
-    password: ''
-  });
-
-  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+  const [incorrectPassword, setIncorrectPassword] = useState(false);
 
   const passwordRef = useRef(null);
-
   useEffect(() => {
     passwordRef.current.focus();
   }, []);
 
-  const { errors, validate } = useValidation(userCheck, validationRules);
+  const { inputs, handleInputChange } = useForm({
+    password: ''
+  });
 
-  const handleChange = (event) => {
-    setUserCheck({ password: event.target.value });
+  const { errors, validate, clearErrors } = useValidation(inputs, validationRules);
+  const clearOnFocusHandler = (input) => {
+    clearErrors(input);
+    setIncorrectPassword(false);
   }
 
-  const checkPassword = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (Object.keys(validate()).length) {
+    const response = validate();
+    if (Object.keys(response).length) {
       return;
     }
 
-    if (userCheck.password === props.userPassword) {
-      props.deleteProfile();
+    if (inputs.password === props.userPassword) {
+      props.function();
     } else {
-      setPasswordIsIncorrect(true);
+      setIncorrectPassword(true);
     }
   }
 
@@ -39,11 +39,11 @@ const ConfirmModal = (props) => {
     <div className='confirm-modal'>
       <form
         className='modal-content'
-        onSubmit={checkPassword}
+        onSubmit={handleSubmit}
         onReset={props.close}
       >
         <header className='modal-header'>
-          <h2 className='modal-content__title'>Delete profile?</h2>
+          <h2 className='modal-content__title'>{props.title}</h2>
         </header>
 
         <div className='modal-main'>
@@ -55,23 +55,25 @@ const ConfirmModal = (props) => {
           </label>
 
           <input
+            ref={passwordRef}
             type='password'
             name='password'
             id='confirm-password'
             className='modal-content__input'
+            value={inputs.password}
             placeholder='Password'
-            ref={passwordRef}
-            onChange={handleChange}
+            onFocus={() => clearOnFocusHandler('password')}
+            onChange={(event) => handleInputChange(event.target.name, event.target.value)}
           />
 
           <p className='error-message'>{errors.password}</p>
 
-          {passwordIsIncorrect &&
+          {incorrectPassword &&
             <p
               className='error-message'
               style={{ marginTop: '-20px' }}
             >
-              Incorrect password.
+              Incorrect password
             </p>
           }
         </div>
@@ -81,7 +83,7 @@ const ConfirmModal = (props) => {
             type='submit'
             className='modal-content__button modal-content__submit-button'
           >
-            Execute
+            Submit
           </button>
 
           <button

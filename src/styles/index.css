@@ -50,3 +50,8 @@ a, button {
 a:hover {
   color: #61dafb;
 }
+
+a.active {
+  color: #61dafb;
+  cursor: default;
+}

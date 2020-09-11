@@ -21,7 +21,9 @@ const useValidation = (object, rules) => {
     return errors;
   }, [object, rules])
 
-  return { errors, validate };
+  const clearErrors = key => setErrors(data => ({ ...data, [key]: '' }));
+
+  return { errors, validate, clearErrors };
 }
 
 export default useValidation;

@@ -1,26 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import '../styles/App.css';
-import Home from './Home';
-import UserProfile from './UserProfile';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import NoPage from './NoPage';
-import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
+import useAuth from '../hooks/auth.hook';
+import useRoutes from '../hooks/routes.hook';
+import Header from './Header';
 
-const App = () => (
-  <Router>
-    <div className='container'>
-      <Switch>
-        <Route exact path='/' component={Home} />
-        <PrivateRoute exact path='/profile' component={UserProfile} />
-        <PublicRoute exact path='/signin' component={SignIn} />
-        <PublicRoute exact path='/signup' component={SignUp} />
-        <Route render={() => <NoPage />} />
-      </Switch>
-    </div>
-  </Router>
-)
+const App = () => {
+  const { token } = useAuth();
+  const isAuthorized = !!token;
+  const routes = useRoutes(isAuthorized);
+
+  return (
+    <Router>
+      <div className='container'>
+        <Header
+          isAuthorized={isAuthorized}
+        />
+        {routes}
+      </div>
+    </Router>
+  )
+}
 
 export default App;

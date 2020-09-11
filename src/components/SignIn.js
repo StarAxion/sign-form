@@ -1,96 +1,96 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import Header from './Header';
+import { Link } from 'react-router-dom';
+import useAuth from '../hooks/auth.hook';
+import useForm from '../hooks/form.hook';
 import useValidation from '../hooks/validation.hook';
 import validationRules from '../validation/signInRules';
 
 const SignIn = () => {
-  const [loginData, setLoginData] = useState({
+  const [incorrectData, setIncorrectData] = useState(false);
+  const { login } = useAuth();
+
+  const { inputs, handleInputChange } = useForm({
     email: '',
     password: ''
   });
 
-  const [invalidData, setInvalidData] = useState(false);
-
-  const history = useHistory();
-
-  const { errors, validate } = useValidation(loginData, validationRules);
-
-  const handleChange = (event) => {
-    setLoginData({ ...loginData, [event.target.name]: event.target.value });
+  const { errors, validate, clearErrors } = useValidation(inputs, validationRules);
+  const clearOnFocusHandler = (input) => {
+    clearErrors(input);
+    setIncorrectData(false);
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (Object.keys(validate()).length) {
+    const response = validate();
+    if (Object.keys(response).length) {
       return;
     }
 
     try {
-      if (loginData.password === JSON.parse(localStorage.getItem(loginData.email)).password) {
-        localStorage.setItem('authorized', loginData.email);
-        history.push('/');
+      if (inputs.password === JSON.parse(localStorage.getItem(inputs.email)).password) {
+        login(inputs.email);
+        window.location.reload();
       } else {
-        setInvalidData(true);
+        setIncorrectData(true);
       }
     } catch {
-      setInvalidData(true);
+      setIncorrectData(true);
     }
   }
 
   return (
-    <>
-      <Header />
+    <form
+      className='signform'
+      onSubmit={handleSubmit}
+    >
+      <h2 className='signform__title'>Welcome back!</h2>
 
-      <form
-        className='signform'
-        onSubmit={handleSubmit}
-      >
-        <h2 className='signform__title'>Welcome back!</h2>
+      <div className='signform__group'>
+        <p>Not a member yet?</p>
+        <Link className='signform__button' to='/signup'>Sign up</Link>
+      </div>
 
-        <div className='signform__group'>
-          <p>Not a member yet?</p>
-          <Link className='signform__button' to='/signup'>Sign up</Link>
-        </div>
+      <input
+        type='text'
+        name='email'
+        className='signform__input'
+        value={inputs.email}
+        placeholder='Email'
+        onFocus={() => clearOnFocusHandler('email')}
+        onChange={(event) => handleInputChange(event.target.name, event.target.value)}
+      />
 
-        <input
-          type='email'
-          name='email'
-          className='signform__input'
-          placeholder='Email'
-          onChange={handleChange}
-        />
+      <p className='error-message'>{errors.email}</p>
 
-        <p className='error-message'>{errors.email}</p>
+      <input
+        type='password'
+        name='password'
+        className='signform__input'
+        value={inputs.password}
+        placeholder='Password'
+        onFocus={() => clearOnFocusHandler('password')}
+        onChange={(event) => handleInputChange(event.target.name, event.target.value)}
+      />
 
-        <input
-          type='password'
-          name='password'
-          className='signform__input'
-          placeholder='Password'
-          onChange={handleChange}
-        />
+      <p className='error-message'>{errors.password}</p>
 
-        <p className='error-message'>{errors.password}</p>
-
-        {invalidData &&
-          <p
-            className='error-message'
-            style={{ marginTop: '-20px' }}
-          >
-            Incorrect email or password.
-          </p>
-        }
-
-        <button
-          type='submit'
-          className='signform__button'
+      {incorrectData &&
+        <p
+          className='error-message'
+          style={{ marginTop: '-20px' }}
         >
-          Sign in
-        </button>
-      </form>
-    </>
+          Incorrect email or password
+        </p>
+      }
+
+      <button
+        type='submit'
+        className='signform__button'
+      >
+        Sign in
+      </button>
+    </form>
   )
 }
 

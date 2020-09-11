@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
 import '../assets/fontawesome-free-5.14.0-web/css/all.min.css';
-import Header from './Header';
+import useAuth from '../hooks/auth.hook';
 import ProfileData from './ProfileData';
 import ConfirmModal from './ConfirmModal';
 
@@ -13,10 +12,11 @@ const UserProfile = () => {
     password: ''
   });
 
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [editIsBlocked, setEditIsBlocked] = useState(true);
-  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  const userKey = localStorage.getItem('authorized');
+  const userKey = localStorage.getItem('token');
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem(userKey));
@@ -31,14 +31,14 @@ const UserProfile = () => {
   const lastNameRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const history = useHistory();
+  const { logout } = useAuth();
 
-  const logOut = () => {
-    history.push('/');
+  const confirmEdit = () => {
+    setOpenEditModal(true);
   }
 
-  const unlockEdit = (event) => {
-    event.preventDefault();
+  const unlockEdit = () => {
+    setOpenEditModal(false);
     setEditIsBlocked(false);
   }
 
@@ -60,23 +60,22 @@ const UserProfile = () => {
     setEditIsBlocked(true);
   }
 
-  const openModal = () => {
-    setModalIsVisible(true);
+  const confirmDelete = () => {
+    setOpenDeleteModal(true);
   }
 
   const closeModal = () => {
-    setModalIsVisible(false);
+    setOpenEditModal(false);
+    setOpenDeleteModal(false);
   }
 
   const deleteProfile = () => {
     localStorage.removeItem(userKey);
-    localStorage.removeItem('authorized');
-    history.push('/');
+    logout();
   }
 
   return (
     <>
-      <Header logOut={logOut} />
 
       <form
         className='profile'
@@ -122,7 +121,7 @@ const UserProfile = () => {
                 type='button'
                 className='profile__button'
                 title='edit profile'
-                onClick={unlockEdit}
+                onClick={confirmEdit}
               >
                 <i className='fas fa-pen'></i>
               </button>
@@ -130,7 +129,7 @@ const UserProfile = () => {
                 type='button'
                 className='profile__button'
                 title='delete profile'
-                onClick={openModal}
+                onClick={confirmDelete}
               >
                 <i className='fas fa-trash'></i>
               </button>
@@ -154,11 +153,21 @@ const UserProfile = () => {
         </div>
       </form>
 
-      {modalIsVisible &&
+      {openEditModal &&
         <ConfirmModal
-          close={closeModal}
-          deleteProfile={deleteProfile}
+          title='Proceed to editing?'
           userPassword={user.password}
+          function={unlockEdit}
+          close={closeModal}
+        />
+      }
+
+      {openDeleteModal &&
+        <ConfirmModal
+          title='Delete profile?'
+          userPassword={user.password}
+          function={deleteProfile}
+          close={closeModal}
         />
       }
     </>

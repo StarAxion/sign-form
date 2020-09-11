@@ -157,11 +157,13 @@
 
 .modal-content__title {
   margin: 0;
+  font-weight: 400;
   letter-spacing: 5px;
+  color: #ff0000;
 }
 
 .modal-main {
-  padding: 20px 20px 0;
+  padding: 30px 20px 0;
 }
 
 .modal-content__input {
@@ -180,12 +182,12 @@
 }
 
 .modal-content__submit-button {
-  background-color: #800000;
+  background-color: #0096c0;
 }
 
 .modal-content__submit-button:hover {
   color: #000000;
-  background-color: #ff0000;
+  background-color: #61dafb;
   box-shadow: 5px 5px 5px #ffffff, -5px -5px 5px #ffffff, 5px -5px 5px #ffffff, -5px 5px 5px #ffffff;
 }
 
