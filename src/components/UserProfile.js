@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import '../assets/fontawesome-free-5.14.0-web/css/all.min.css';
+import '../assets/fontawesome/css/all.min.css';
 import useAuth from '../hooks/auth.hook';
 import ProfileData from './ProfileData';
 import ConfirmModal from './ConfirmModal';

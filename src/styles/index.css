@@ -55,3 +55,31 @@ a.active {
   color: #61dafb;
   cursor: default;
 }
+
+main {
+  padding: 60px 0;
+  text-align: center;
+}
+
+table {
+  margin: 0 auto;
+  padding: 30px;
+  border: solid 5px #ffffff;
+  border-collapse: collapse;
+}
+
+caption {
+  margin: 0 0 30px;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+thead {
+  color: #000000;
+  background-color: #61dafb;
+}
+
+th, td {
+  padding: 30px;
+  border: solid 2px #ffffff;
+}

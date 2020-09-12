@@ -227,3 +227,7 @@
 .nopage__text {
   margin-bottom: 40px;
 }
+
+.main__button:hover {
+  background-color: #61dafb;
+}
