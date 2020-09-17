@@ -8,13 +8,17 @@ body {
   font-size: calc(10px + 2vmin);
 }
 
+main {
+  padding: 60px 0;
+  text-align: center;
+}
+
 p {
   margin: 0;
   padding: 0;
 }
 
 input {
-  width: 60%;
   padding: 10px 15px;
   font-family: inherit;
   font-size: inherit;
@@ -26,8 +30,24 @@ input {
   outline: none;
 }
 
+input::placeholder {
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
 input:focus {
   background-color: #ffffff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 button {
@@ -54,32 +74,4 @@ a:hover {
 a.active {
   color: #61dafb;
   cursor: default;
-}
-
-main {
-  padding: 60px 0;
-  text-align: center;
-}
-
-table {
-  margin: 0 auto;
-  padding: 30px;
-  border: solid 5px #ffffff;
-  border-collapse: collapse;
-}
-
-caption {
-  margin: 0 0 30px;
-  font-size: 30px;
-  font-weight: 900;
-}
-
-thead {
-  color: #000000;
-  background-color: #61dafb;
-}
-
-th, td {
-  padding: 30px;
-  border: solid 2px #ffffff;
 }

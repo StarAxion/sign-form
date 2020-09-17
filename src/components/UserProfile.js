@@ -1,37 +1,51 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import '../assets/fontawesome/css/all.min.css';
-import useAuth from '../hooks/auth.hook';
+import useForm from '../hooks/form.hook';
+import useValidation from '../hooks/validation.hook';
+import validationRules from '../validation/signUpRules';
+import AuthContext from '../context/AuthContext';
 import ProfileData from './ProfileData';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../portals/ConfirmModal';
+import ModalContent from './ModalContent';
+import ResultMessage from '../portals/ResultMessage';
 
 const UserProfile = () => {
-  const [user, setUser] = useState({
+  const [editIsBlocked, setEditIsBlocked] = useState(true);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [editResultMessage, setEditResultMessage] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteResultMessage, setDeleteResultMessage] = useState(false);
+
+  const { inputs, handleInputChange } = useForm({
     firstName: '',
     lastName: '',
     email: '',
     password: ''
   });
 
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [editIsBlocked, setEditIsBlocked] = useState(true);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const auth = useContext(AuthContext);
 
-  const userKey = localStorage.getItem('token');
+  const setUserInitialData = useCallback(() => {
+    const userData = JSON.parse(localStorage.getItem(auth.token));
+    for (let prop in userData) {
+      handleInputChange(prop, userData[prop]);
+    }
+  }, [auth.token, handleInputChange]);
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem(userKey));
-    for (let prop in userData) {
-      setUser((data) => ({
-        ...data, [prop]: userData[prop]
-      }));
-    }
-  }, [userKey]);
+    setUserInitialData();
+  }, [setUserInitialData]);
 
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const passwordRef = useRef(null);
+  const inputRefs = [firstNameRef, lastNameRef, passwordRef];
 
-  const { logout } = useAuth();
+  const { errors, validate, clearErrors } = useValidation(inputs, validationRules);
+
+  const clearOnFocusHandler = (input) => {
+    clearErrors(input);
+  }
 
   const confirmEdit = () => {
     setOpenEditModal(true);
@@ -44,23 +58,25 @@ const UserProfile = () => {
 
   const saveChanges = (event) => {
     event.preventDefault();
-
-    const newData = {
-      firstName: firstNameRef.current.value,
-      lastName: lastNameRef.current.value,
-      email: user.email,
-      password: passwordRef.current.value
-    };
-
-    localStorage.setItem(userKey, JSON.stringify(newData));
-    setEditIsBlocked(true);
+    inputRefs.forEach(ref => ref.current.blur());
+    const response = validate();
+    if (Object.keys(response).length) {
+      return;
+    }
+    setEditResultMessage(true);
+    setTimeout(() => {
+      localStorage.setItem(auth.token, JSON.stringify(inputs));
+      window.location.reload();
+    }, 1000);
   }
 
   const cancelChanges = () => {
+    inputRefs.forEach(ref => clearErrors(ref.current.name));
+    setUserInitialData();
     setEditIsBlocked(true);
   }
 
-  const confirmDelete = () => {
+  const showDeleteModal = () => {
     setOpenDeleteModal(true);
   }
 
@@ -70,49 +86,68 @@ const UserProfile = () => {
   }
 
   const deleteProfile = () => {
-    localStorage.removeItem(userKey);
-    logout();
+    setOpenDeleteModal(false);
+    setDeleteResultMessage(true);
+    setTimeout(() => {
+      localStorage.removeItem(auth.token);
+      auth.logout();
+    }, 1000);
   }
 
   return (
     <>
-
       <form
+        id='profile'
         className='profile'
         onSubmit={saveChanges}
         onReset={cancelChanges}
       >
         <ProfileData
+          ref={firstNameRef}
           name='firstName'
           inputId='firstName'
           label='First name'
-          value={user.firstName}
+          value={inputs.firstName}
           access={editIsBlocked}
-          ref={firstNameRef}
+          onFocus={() => clearOnFocusHandler('firstName')}
+          onChange={(event) => handleInputChange(event.target.name, event.target.value)}
         />
+
+        <p className='error-message'>{errors.firstName}</p>
+
         <ProfileData
+          ref={lastNameRef}
           name='lastName'
           inputId='lastName'
           label='Last name'
-          value={user.lastName}
+          value={inputs.lastName}
           access={editIsBlocked}
-          ref={lastNameRef}
+          onFocus={() => clearOnFocusHandler('lastName')}
+          onChange={(event) => handleInputChange(event.target.name, event.target.value)}
         />
+
+        <p className='error-message'>{errors.lastName}</p>
+
         <ProfileData
           name='email'
           inputId='email'
           label='Email'
-          value={user.email}
+          value={inputs.email}
           access={true}
         />
+
         <ProfileData
+          ref={passwordRef}
           name='password'
           inputId='password'
           label='Password'
-          value={user.password}
+          value={inputs.password}
           access={editIsBlocked}
-          ref={passwordRef}
+          onFocus={() => clearOnFocusHandler('password')}
+          onChange={(event) => handleInputChange(event.target.name, event.target.value)}
         />
+
+        <p className='error-message'>{errors.password}</p>
 
         <div>
           {editIsBlocked ?
@@ -120,7 +155,7 @@ const UserProfile = () => {
               <button
                 type='button'
                 className='profile__button'
-                title='edit profile'
+                title='edit data'
                 onClick={confirmEdit}
               >
                 <i className='fas fa-pen'></i>
@@ -129,7 +164,7 @@ const UserProfile = () => {
                 type='button'
                 className='profile__button'
                 title='delete profile'
-                onClick={confirmDelete}
+                onClick={showDeleteModal}
               >
                 <i className='fas fa-trash'></i>
               </button>
@@ -154,21 +189,41 @@ const UserProfile = () => {
       </form>
 
       {openEditModal &&
-        <ConfirmModal
-          title='Proceed to editing?'
-          userPassword={user.password}
-          function={unlockEdit}
-          close={closeModal}
-        />
+        <ConfirmModal>
+          <ModalContent
+            title='Proceed to editing?'
+            userPassword={inputs.password}
+            function={unlockEdit}
+            close={closeModal}
+          />
+        </ConfirmModal>
+      }
+
+      {editResultMessage &&
+        <ResultMessage>
+          <div>
+            <p>Changes saved!</p>
+          </div>
+        </ResultMessage>
       }
 
       {openDeleteModal &&
-        <ConfirmModal
-          title='Delete profile?'
-          userPassword={user.password}
-          function={deleteProfile}
-          close={closeModal}
-        />
+        <ConfirmModal>
+          <ModalContent
+            title='Delete profile?'
+            userPassword={inputs.password}
+            function={deleteProfile}
+            close={closeModal}
+          />
+        </ConfirmModal>
+      }
+
+      {deleteResultMessage &&
+        <ResultMessage>
+          <div>
+            <p>Profile deleted!</p>
+          </div>
+        </ResultMessage>
       }
     </>
   )

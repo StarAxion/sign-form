@@ -5,12 +5,12 @@ const PublicRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      !localStorage.getItem('authorized') ?
+      !localStorage.getItem('token') ?
         (<Component {...props} />)
         :
         (<Redirect
           to={{
-            pathname: '/profile',
+            pathname: '/',
             state: { from: props.location }
           }}
         />)

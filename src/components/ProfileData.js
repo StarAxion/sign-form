@@ -10,16 +10,19 @@ const ProfileData = forwardRef((props, ref) => (
     </label>
 
     <input
+      ref={ref}
       type='text'
       name={props.name}
       id={props.inputId}
       className='profile__input'
-      defaultValue={props.value}
-      readOnly={props.access}
+      value={props.value}
       disabled={props.access}
-      ref={ref}
       autoComplete='off'
-      required
+      onFocus={props.onFocus}
+      onChange={props.onChange}
+      style={{
+        borderColor: props.access ? '#61dafb' : '#ffffff'
+      }}
     />
   </>
 ))

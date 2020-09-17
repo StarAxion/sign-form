@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  padding: 20px 40px;
+  padding: 30px 60px;
   color: #ffffff;
   background-color: #282c34;
   box-sizing: border-box;
@@ -63,13 +63,8 @@
 }
 
 .signform__input {
+  width: 60%;
   margin: 0 0 10px;
-}
-
-.signform__input::placeholder {
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffff;
 }
 
 .signform__input:focus {
@@ -114,8 +109,8 @@
 }
 
 .profile__input {
+  width: 60%;
   margin: 20px calc(20% - 20px) 10px;
-  border-color: #61dafb;
 }
 
 .profile__button {
@@ -126,13 +121,13 @@
   background-color: #61dafb;
 }
 
-.confirm-modal {
+.modal-container {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 40px 20px;
-  width: calc(100% - 40px);
-  height: calc(100% - 40px);
+  padding: 60px 30px;
+  width: calc(100% - 60px);
+  height: calc(100% - 120px);
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
   overflow: hidden;
@@ -164,11 +159,20 @@
 
 .modal-main {
   padding: 30px 20px 0;
+  color: #ffffff;
 }
 
 .modal-content__input {
+  width: 60%;
   margin: 20px 0;
   background-color: #ffffff;
+}
+
+.modal-content__input::placeholder {
+  font-weight: 400;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .modal-footer {
@@ -202,8 +206,35 @@
   box-shadow: 5px 5px 5px #ffffff, -5px -5px 5px #ffffff, 5px -5px 5px #ffffff, -5px 5px 5px #ffffff;
 }
 
+.result-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 60px 30px;
+  width: calc(100% - 60px);
+  height: calc(100% - 120px);
+  background-color: rgba(250, 250, 250, 0.8);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.result-message div {
+  position: relative;
+  top: 45%;
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+  color: #ffffff;
+  background-color: #61dafb;
+  border: solid 5px #ffffff;
+  border-radius: 30px;
+}
+
 .error-message {
-  margin-bottom: 20px;
+  margin: 0 0 20px;
   text-align: center;
   font-style: italic;
   color: #ff0000;
@@ -219,15 +250,152 @@
   color: #61dafb;
 }
 
-.nopage {
-  padding: 20px 0;
-  text-align: center;
+.main__table {
+  width: 100%;
+  margin: 0 auto 30px;
+  padding: 30px;
+  border: solid 5px #ffffff;
+  border-collapse: collapse;
 }
 
-.nopage__text {
-  margin-bottom: 40px;
+.main__table caption {
+  margin: 0 0 30px;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.main__table thead {
+  color: #000000;
+  background-color: #61dafb;
+}
+
+.main__table tr {
+  border-top: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+}
+
+.main__table th, td {
+  padding: 30px;
+  border: solid 1px #ffffff;
+}
+
+.main__form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.main__form input, button {
+  margin: 10px;
+}
+
+.main__form input::placeholder {
+  text-transform: uppercase;
+}
+
+.main__form-id {
+  max-width: 90px;
+}
+
+.main__form-name {
+  max-width: 320px;
+}
+
+.main__form-username {
+  max-width: 250px;
+}
+
+.main__form-email {
+  max-width: 350px;
 }
 
 .main__button:hover {
   background-color: #61dafb;
+}
+
+.editform__par {
+  margin: 10px 0 30px;
+  padding: 10px 15px;
+  font-weight: 700;
+  background-color: #61dafb;
+}
+
+.editform__input {
+  width: 80%;
+  margin: 0 0 20px;
+}
+
+.editform__input::placeholder {
+  text-transform: uppercase;
+}
+
+.editform__input:focus {
+  border-color: #61dafb;
+}
+
+.editform__button:hover {
+  background-color: #61dafb;
+  border-color: #61dafb;
+}
+
+@media screen and (max-width: 1279px) {
+
+  .main__table {
+    position: relative;
+    margin: 60px 0 0;
+    padding: 0;
+  }
+
+  .main__table caption {
+    position: absolute;
+    top: -70px;
+    left: 40%;
+  }
+
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+  }
+
+  tr:nth-of-type(odd) { 
+    color: #000000;
+    background-color: #61dafb;
+  }
+
+  tr:nth-of-type(odd) button {
+    color: #000000;
+    border-color: #000000;
+  }
+
+  tr:nth-of-type(odd) button:hover {
+    background-color: #ffffff;
+  }
+
+  thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	td { 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		position: absolute;
+		top: 35%;
+		left: 0;
+    width: 50%; 
+    font-weight: 700;
+	}
+	
+	td:nth-of-type(1):before { content: "ID"; }
+	td:nth-of-type(2):before { content: "NAME"; }
+	td:nth-of-type(3):before { content: "USERNAME"; }
+	td:nth-of-type(4):before { content: "EMAIL"; }
+	td:nth-of-type(5):before { content: "DELETE"; }
+	td:nth-of-type(6):before { content: "EDIT"; }
+  
 }

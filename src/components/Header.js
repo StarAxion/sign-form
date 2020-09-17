@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import useAuth from '../hooks/auth.hook';
+import AuthContext from '../context/AuthContext';
 
-const Header = (props) => {
-  const [userKey, setUserKey] = useState(null);
-  useEffect(() => {
-    setUserKey(localStorage.getItem('token'));
-  }, []);
-
-  const { logout } = useAuth();
+const Header = () => {
+  const auth = useContext(AuthContext);
 
   const getUserFullName = () => {
-    const userData = JSON.parse(localStorage.getItem(userKey));
+    const userData = JSON.parse(localStorage.getItem(auth.token));
     return `${userData.firstName} ${userData.lastName}`;
   }
 
   return (
     <header className='header'>
-      {props.isAuthorized ?
+      {auth.isAuthorized ?
         <>
           <Link className='homelink' to='/'>Home</Link>
           <div>
             <Link to='/profile'>{getUserFullName()}</Link>
             <span className='separator'>&#124;</span>
-            <button className='logout' onClick={logout}>Log out</button >
+            <button className='logout' onClick={() => auth.logout()}>Log out</button >
           </div>
         </>
         :
