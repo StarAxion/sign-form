@@ -17,10 +17,15 @@ const useRoutes = (isAuthorized) => {
   }
 
   return (
-    <Switch>
-      <Route exact path='/signin' component={SignIn} />
-      <Route exact path='/signup' component={SignUp} />
-    </Switch>
+    <>
+      {!window.location.href.endsWith('/signin') && !window.location.href.endsWith('/signup') &&
+        <Redirect to='/signin' />
+      }
+      <Switch>
+        <Route exact path='/signin' component={SignIn} />
+        <Route exact path='/signup' component={SignUp} />
+      </Switch>
+    </>
   )
 }
 

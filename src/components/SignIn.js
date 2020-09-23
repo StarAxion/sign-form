@@ -1,20 +1,26 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import useForm from '../hooks/form.hook';
 import useValidation from '../hooks/validation.hook';
 import validationRules from '../validation/signInRules';
-import AuthContext from '../context/AuthContext';
+// import AuthContext from '../context/AuthContext';
 import ResultMessage from '../portals/ResultMessage';
+import { signInFailure } from '../redux/actions/signIn.action';
+import { signInUser } from '../redux/actions/signIn.action';
 
 const SignIn = () => {
-  const [incorrectData, setIncorrectData] = useState(false);
-  const [signinResultMessage, setSigninResultMessage] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector(state => state.signInReducer);
+
+  // const [incorrectData, setIncorrectData] = useState(false);
+  // const [signinResultMessage, setSigninResultMessage] = useState(false);
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const inputRefs = [emailRef, passwordRef];
 
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
 
   const { inputs, handleInputChange } = useForm({
     email: '',
@@ -24,7 +30,8 @@ const SignIn = () => {
   const { errors, validate, clearErrors } = useValidation(inputs, validationRules);
   const clearOnFocusHandler = (input) => {
     clearErrors(input);
-    setIncorrectData(false);
+    dispatch(signInFailure(false));
+    // setIncorrectData(false);
   }
 
   const handleSubmit = (event) => {
@@ -34,19 +41,21 @@ const SignIn = () => {
     if (Object.keys(response).length) {
       return;
     }
-    try {
-      if (inputs.password === JSON.parse(localStorage.getItem(inputs.email)).password) {
-        setSigninResultMessage(true);
-        setTimeout(() => {
-          auth.login(inputs.email);
-          window.location.reload();
-        }, 1000);
-      } else {
-        setIncorrectData(true);
-      }
-    } catch {
-      setIncorrectData(true);
-    }
+    dispatch(signInUser(inputs));
+
+    // try {
+    //   if (inputs.password === JSON.parse(localStorage.getItem(inputs.email)).password) {
+    //     setSigninResultMessage(true);
+    //     setTimeout(() => {
+    //       auth.login(inputs.email);
+    //       window.location.reload();
+    //     }, 1000);
+    //   } else {
+    //     setIncorrectData(true);
+    //   }
+    // } catch {
+    //   setIncorrectData(true);
+    // }
   }
 
   return (
@@ -88,7 +97,7 @@ const SignIn = () => {
 
         <p className='error-message'>{errors.password}</p>
 
-        {incorrectData &&
+        {error &&
           <p
             className='error-message'
             style={{ marginTop: '-20px' }}
@@ -105,12 +114,26 @@ const SignIn = () => {
       </button>
       </form>
 
-      {signinResultMessage &&
+      {loading &&
         <ResultMessage>
           <div>
-            <p>You have successfully signed in!</p>
+            <p>Please wait...</p>
           </div>
         </ResultMessage>
+      }
+
+      {success &&
+        <>
+          <ResultMessage>
+            <div>
+              <p>You have successfully signed in!</p>
+            </div>
+          </ResultMessage>
+
+          {setTimeout(() => {
+            window.location.reload();
+          }, 1000)}
+        </>
       }
     </>
   )

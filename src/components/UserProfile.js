@@ -1,15 +1,20 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import '../assets/fontawesome/css/all.min.css';
 import useForm from '../hooks/form.hook';
 import useValidation from '../hooks/validation.hook';
 import validationRules from '../validation/signUpRules';
-import AuthContext from '../context/AuthContext';
+// import AuthContext from '../context/AuthContext';
 import ProfileData from './ProfileData';
 import ConfirmModal from '../portals/ConfirmModal';
 import ModalContent from './ModalContent';
 import ResultMessage from '../portals/ResultMessage';
+import { deleteUserProfile } from '../redux/actions/auth.action';
 
 const UserProfile = () => {
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.authReducer.token);
+
   const [editIsBlocked, setEditIsBlocked] = useState(true);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editResultMessage, setEditResultMessage] = useState(false);
@@ -23,14 +28,14 @@ const UserProfile = () => {
     password: ''
   });
 
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
 
   const setUserInitialData = useCallback(() => {
-    const userData = JSON.parse(localStorage.getItem(auth.token));
+    const userData = JSON.parse(localStorage.getItem(token));
     for (let prop in userData) {
       handleInputChange(prop, userData[prop]);
     }
-  }, [auth.token, handleInputChange]);
+  }, [token, handleInputChange]);
 
   useEffect(() => {
     setUserInitialData();
@@ -65,7 +70,7 @@ const UserProfile = () => {
     }
     setEditResultMessage(true);
     setTimeout(() => {
-      localStorage.setItem(auth.token, JSON.stringify(inputs));
+      localStorage.setItem(token, JSON.stringify(inputs));
       window.location.reload();
     }, 1000);
   }
@@ -85,12 +90,12 @@ const UserProfile = () => {
     setOpenDeleteModal(false);
   }
 
-  const deleteProfile = () => {
+  const handleProfileDelete = () => {
     setOpenDeleteModal(false);
     setDeleteResultMessage(true);
     setTimeout(() => {
-      localStorage.removeItem(auth.token);
-      auth.logout();
+      // localStorage.removeItem(token);
+      dispatch(deleteUserProfile());
     }, 1000);
   }
 
@@ -212,7 +217,7 @@ const UserProfile = () => {
           <ModalContent
             title='Delete profile?'
             userPassword={inputs.password}
-            function={deleteProfile}
+            function={handleProfileDelete}
             close={closeModal}
           />
         </ConfirmModal>

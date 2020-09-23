@@ -1,13 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import useForm from '../hooks/form.hook';
 import useValidation from '../hooks/validation.hook';
 import validationRules from '../validation/signUpRules';
 import ResultMessage from '../portals/ResultMessage';
+import { signUpSuccess } from '../redux/actions/signUp.action';
+import { signUpFailure } from '../redux/actions/signUp.action';
+import { signUpUser } from '../redux/actions/signUp.action';
 
 const SignUp = () => {
-  const [emailInUse, setEmailInUse] = useState(false);
-  const [signupResultMessage, setSignupResultMessage] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, success, userData, error } = useSelector(state => state.signUpReducer);
+
+  // const [emailInUse, setEmailInUse] = useState(false);
+  // const [signupResultMessage, setSignupResultMessage] = useState(false);
 
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
@@ -28,7 +35,8 @@ const SignUp = () => {
   const clearOnFocusHandler = (input) => {
     clearErrors(input);
     if (input === 'email') {
-      setEmailInUse(false);
+      dispatch(signUpFailure(false));
+      // setEmailInUse(false);
     }
   }
 
@@ -38,19 +46,22 @@ const SignUp = () => {
     const response = validate();
     if (Object.keys(response).length) {
       if (localStorage.getItem(inputs.email)) {
-        setEmailInUse(true);
+        dispatch(signUpFailure(true));
+        // setEmailInUse(true);
       }
       return;
     }
-    if (localStorage.getItem(inputs.email)) {
-      setEmailInUse(true);
-    } else {
-      setSignupResultMessage(true);
-      setTimeout(() => {
-        localStorage.setItem(inputs.email, JSON.stringify(inputs));
-        history.push('/signin');
-      }, 1000);
-    }
+    dispatch(signUpUser(inputs));
+
+    // if (localStorage.getItem(inputs.email)) {
+    //   setEmailInUse(true);
+    // } else {
+    //   setSignupResultMessage(true);
+    //   setTimeout(() => {
+    //     localStorage.setItem(inputs.email, JSON.stringify(inputs));
+    //     history.push('/signin');
+    //   }, 1000);
+    // }
   }
 
   return (
@@ -105,13 +116,13 @@ const SignUp = () => {
 
         <p className='error-message'>{errors.email}</p>
 
-        {emailInUse &&
+        {error &&
           <p
             className='error-message'
             style={{ marginTop: '-20px' }}
           >
             This email is already in use
-        </p>
+          </p>
         }
 
         <input
@@ -135,12 +146,27 @@ const SignUp = () => {
       </button>
       </form>
 
-      {signupResultMessage &&
+      {loading &&
         <ResultMessage>
           <div>
-            <p>You have successfully signed up!</p>
+            <p>Please wait...</p>
           </div>
         </ResultMessage>
+      }
+
+      {success &&
+        <>
+          <ResultMessage>
+            <div>
+              <p>You have successfully signed up!</p>
+            </div>
+          </ResultMessage>
+
+          {setTimeout(() => {
+            dispatch(signUpSuccess({ success: false, userData }));
+            history.push('/signin');
+          }, 1000)}
+        </>
       }
     </>
   )
