@@ -7,7 +7,6 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'LOGOUT':
       localStorage.removeItem('token');
-      window.location.reload();
       return {
         ...state,
         token: null,
@@ -17,7 +16,6 @@ const authReducer = (state = initialState, action) => {
     case 'DELETE':
       localStorage.removeItem('token');
       localStorage.removeItem(state.token);
-      window.location.reload();
       return {
         ...state,
         token: null,
