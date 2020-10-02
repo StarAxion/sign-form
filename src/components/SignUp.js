@@ -11,7 +11,10 @@ import { signUpUser } from '../redux/actions/signUp.action';
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { loading, success, userData, error } = useSelector(state => state.signUpReducer);
+
+  const loading = useSelector(state => state.signUpReducer.loading);
+  const successMessage = useSelector(state => state.signUpReducer.successMessage);
+  const error = useSelector(state => state.signUpReducer.error);
 
   // const [emailInUse, setEmailInUse] = useState(false);
   // const [signupResultMessage, setSignupResultMessage] = useState(false);
@@ -154,7 +157,7 @@ const SignUp = () => {
         </ResultMessage>
       }
 
-      {success &&
+      {successMessage &&
         <>
           <ResultMessage>
             <div>
@@ -163,7 +166,7 @@ const SignUp = () => {
           </ResultMessage>
 
           {setTimeout(() => {
-            dispatch(signUpSuccess({ success: false, userData }));
+            dispatch(signUpSuccess(false));
             history.push('/signin');
           }, 1000)}
         </>

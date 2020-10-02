@@ -11,7 +11,10 @@ import { signInUser } from '../redux/actions/signIn.action';
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const { loading, success, error } = useSelector(state => state.signInReducer);
+
+  const loading = useSelector(state => state.signInReducer.loading);
+  const successMessage = useSelector(state => state.signInReducer.successMessage);
+  const error = useSelector(state => state.signInReducer.error);
 
   // const [incorrectData, setIncorrectData] = useState(false);
   // const [signinResultMessage, setSigninResultMessage] = useState(false);
@@ -122,7 +125,7 @@ const SignIn = () => {
         </ResultMessage>
       }
 
-      {success &&
+      {successMessage &&
         <>
           <ResultMessage>
             <div>

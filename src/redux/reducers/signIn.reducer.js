@@ -2,8 +2,7 @@ import { SIGN_IN_REQUEST, SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from '../constants/
 
 const initialState = {
   loading: false,
-  success: false,
-  userData: null,
+  successMessage: false,
   error: false
 }
 
@@ -16,13 +15,10 @@ const signInReducer = (state = initialState, action) => {
       }
 
     case SIGN_IN_SUCCESS:
-      const { success, userData } = action.payload;
-      localStorage.setItem('token', userData.email);
       return {
         ...state,
         loading: false,
-        success,
-        userData
+        successMessage: true
       }
 
     case SIGN_IN_FAILURE:

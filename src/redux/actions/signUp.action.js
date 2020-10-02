@@ -26,7 +26,8 @@ export const signUpUser = (user) => {
     if (localStorage.getItem(user.email)) {
       dispatch(signUpFailure(true));
     } else {
-      dispatch(signUpSuccess({ success: true, userData: user }));
+      localStorage.setItem(user.email, JSON.stringify(user));
+      dispatch(signUpSuccess(true));
     }
   }
 }

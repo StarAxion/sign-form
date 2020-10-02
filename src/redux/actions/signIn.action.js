@@ -2,14 +2,13 @@ import { SIGN_IN_REQUEST, SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from '../constants/
 
 const signInRequest = () => {
   return {
-    type: SIGN_IN_REQUEST,
+    type: SIGN_IN_REQUEST
   }
 }
 
-export const signInSuccess = (payload) => {
+const signInSuccess = () => {
   return {
-    type: SIGN_IN_SUCCESS,
-    payload
+    type: SIGN_IN_SUCCESS
   }
 }
 
@@ -25,7 +24,8 @@ export const signInUser = (data) => {
     dispatch(signInRequest());
     try {
       if (data.password === JSON.parse(localStorage.getItem(data.email)).password) {
-        dispatch(signInSuccess({ success: true, userData: data }));
+        localStorage.setItem('token', data.email);
+        dispatch(signInSuccess());
       } else {
         dispatch(signInFailure(true));
       }

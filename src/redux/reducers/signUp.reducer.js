@@ -2,8 +2,7 @@ import { SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from '../constants/
 
 const initialState = {
   loading: false,
-  success: false,
-  userData: null,
+  successMessage: false,
   error: false
 }
 
@@ -16,13 +15,11 @@ const signUpReducer = (state = initialState, action) => {
       }
 
     case SIGN_UP_SUCCESS:
-      const { success, userData } = action.payload;
-      localStorage.setItem(userData.email, JSON.stringify(userData));
       return {
         ...state,
         loading: false,
-        success,
-        userData
+        successMessage: action.payload,
+        error: false
       }
 
     case SIGN_UP_FAILURE:
