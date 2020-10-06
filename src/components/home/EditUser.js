@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useForm from '../hooks/form.hook';
-import useValidation from '../hooks/validation.hook';
-import validationRules from '../validation/addUserRules';
-import ResultMessage from '../portals/ResultMessage';
+import useForm from '../../hooks/form.hook';
+import useValidation from '../../hooks/validation.hook';
+import validationRules from '../../validation/addUserRules';
+import ResultMessage from '../../portals/ResultMessage';
 
 const EditUser = (props) => {
   const [editUserResultMessage, setEditUserResultMessage] = useState(false);

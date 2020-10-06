@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import useForm from '../hooks/form.hook';
-import useValidation from '../hooks/validation.hook';
-import validationRules from '../validation/signInRules';
+import useForm from '../../hooks/form.hook';
+import useValidation from '../../hooks/validation.hook';
+import validationRules from '../../validation/signInRules';
 
 const ModalContent = (props) => {
   const [incorrectPassword, setIncorrectPassword] = useState(false);

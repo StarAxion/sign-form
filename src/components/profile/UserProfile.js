@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import '../assets/fontawesome/css/all.min.css';
-import useForm from '../hooks/form.hook';
-import useValidation from '../hooks/validation.hook';
-import validationRules from '../validation/signUpRules';
+import '../../assets/fontawesome/css/all.min.css';
+import useForm from '../../hooks/form.hook';
+import useValidation from '../../hooks/validation.hook';
+import validationRules from '../../validation/signUpRules';
 // import AuthContext from '../context/AuthContext';
 import ProfileData from './ProfileData';
-import ConfirmModal from '../portals/ConfirmModal';
+import ConfirmModal from '../../portals/ConfirmModal';
 import ModalContent from './ModalContent';
-import ResultMessage from '../portals/ResultMessage';
-import { deleteUserProfile } from '../redux/actions/auth.action';
+import ResultMessage from '../../portals/ResultMessage';
+import { deleteUserProfile } from '../../redux/actions/auth.action';
 
 const UserProfile = () => {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import '../assets/fontawesome/css/all.min.css';
+import '../../assets/fontawesome/css/all.min.css';
 import AddUser from './AddUser';
 import EditUser from './EditUser';
-import ResultMessage from '../portals/ResultMessage';
+import ResultMessage from '../../portals/ResultMessage';
 
 const UsersList = (props) => {
   const [users, setUsers] = useState(null);
