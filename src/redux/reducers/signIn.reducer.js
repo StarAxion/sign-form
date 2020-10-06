@@ -2,7 +2,7 @@ import { SIGN_IN_REQUEST, SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from '../constants/
 
 const initialState = {
   loading: false,
-  successMessage: false,
+  success: false,
   error: false
 }
 
@@ -18,7 +18,7 @@ const signInReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        successMessage: true
+        success: true
       }
 
     case SIGN_IN_FAILURE:

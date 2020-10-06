@@ -13,7 +13,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const loading = useSelector(state => state.signInReducer.loading);
-  const successMessage = useSelector(state => state.signInReducer.successMessage);
+  const success = useSelector(state => state.signInReducer.success);
   const error = useSelector(state => state.signInReducer.error);
 
   // const [incorrectData, setIncorrectData] = useState(false);
@@ -125,7 +125,7 @@ const SignIn = () => {
         </ResultMessage>
       }
 
-      {successMessage &&
+      {success &&
         <>
           <ResultMessage>
             <div>

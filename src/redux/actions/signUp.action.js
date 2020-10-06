@@ -6,10 +6,9 @@ const signUpRequest = () => {
   }
 }
 
-export const signUpSuccess = (payload) => {
+const signUpSuccess = () => {
   return {
-    type: SIGN_UP_SUCCESS,
-    payload
+    type: SIGN_UP_SUCCESS
   }
 }
 
@@ -27,7 +26,7 @@ export const signUpUser = (user) => {
       dispatch(signUpFailure(true));
     } else {
       localStorage.setItem(user.email, JSON.stringify(user));
-      dispatch(signUpSuccess(true));
+      dispatch(signUpSuccess());
     }
   }
 }

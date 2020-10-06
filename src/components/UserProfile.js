@@ -95,7 +95,7 @@ const UserProfile = () => {
     setDeleteResultMessage(true);
     setTimeout(() => {
       // localStorage.removeItem(token);
-      dispatch(deleteUserProfile());
+      dispatch(deleteUserProfile(token));
     }, 1000);
   }
 

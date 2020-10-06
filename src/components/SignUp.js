@@ -5,7 +5,6 @@ import useForm from '../hooks/form.hook';
 import useValidation from '../hooks/validation.hook';
 import validationRules from '../validation/signUpRules';
 import ResultMessage from '../portals/ResultMessage';
-import { signUpSuccess } from '../redux/actions/signUp.action';
 import { signUpFailure } from '../redux/actions/signUp.action';
 import { signUpUser } from '../redux/actions/signUp.action';
 
@@ -13,7 +12,7 @@ const SignUp = () => {
   const dispatch = useDispatch();
 
   const loading = useSelector(state => state.signUpReducer.loading);
-  const successMessage = useSelector(state => state.signUpReducer.successMessage);
+  const success = useSelector(state => state.signUpReducer.success);
   const error = useSelector(state => state.signUpReducer.error);
 
   // const [emailInUse, setEmailInUse] = useState(false);
@@ -157,7 +156,7 @@ const SignUp = () => {
         </ResultMessage>
       }
 
-      {successMessage &&
+      {success &&
         <>
           <ResultMessage>
             <div>
@@ -166,7 +165,7 @@ const SignUp = () => {
           </ResultMessage>
 
           {setTimeout(() => {
-            dispatch(signUpSuccess(false));
+            window.location.reload();
             history.push('/signin');
           }, 1000)}
         </>

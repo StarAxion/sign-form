@@ -2,7 +2,7 @@ import { SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from '../constants/
 
 const initialState = {
   loading: false,
-  successMessage: false,
+  success: false,
   error: false
 }
 
@@ -18,8 +18,7 @@ const signUpReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        successMessage: action.payload,
-        error: false
+        success: true
       }
 
     case SIGN_UP_FAILURE:
