@@ -1,14 +1,14 @@
 export const logOut = () => {
-  localStorage.removeItem('token');
-  return {
-    type: 'LOGOUT'
+  return (dispatch) => {
+    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('token');
   }
 }
 
-export const deleteUserProfile = (payload) => {
-  localStorage.removeItem('token');
-  localStorage.removeItem(payload);
-  return {
-    type: 'DELETE'
+export const deleteUserProfile = (userKey) => {
+  return (dispatch) => {
+    dispatch({ type: 'DELETE' });
+    localStorage.removeItem('token');
+    localStorage.removeItem(userKey);
   }
 }
