@@ -13,7 +13,6 @@
 }
 
 .homelink {
-  margin: 0;
   color: #61dafb;
 }
 
@@ -81,6 +80,7 @@
   padding: 10px 20px;
   text-transform: uppercase;
   text-decoration: none;
+  text-align: center;
   border: 5px solid #ffffff;
   border-radius: 15px;
 }
@@ -135,7 +135,7 @@
 
 .modal-content {
   position: relative;
-  top: 25%;
+  top: 15%!important;
   max-width: 600px;
   margin: auto;
   padding: 20px 0;
@@ -220,7 +220,7 @@
 
 .result-message div {
   position: relative;
-  top: 45%;
+  top: 35%;
   max-width: 600px;
   margin: auto;
   padding: 30px;
@@ -241,6 +241,7 @@
 }
 
 .logout {
+  margin: 0;
   padding: 0;
   text-transform: none;
   border: none;
@@ -250,18 +251,17 @@
   color: #61dafb;
 }
 
-.main__table {
-  width: 100%;
-  margin: 0 auto 30px;
-  padding: 30px;
-  border: solid 5px #ffffff;
-  border-collapse: collapse;
-}
-
-.main__table caption {
+.table-caption {
   margin: 0 0 30px;
   font-size: 30px;
   font-weight: 900;
+}
+
+.main__table {
+  width: 100%;
+  margin: 0 auto 30px;
+  border: solid 5px #ffffff;
+  border-collapse: collapse;
 }
 
 .main__table thead {
@@ -315,6 +315,11 @@
   background-color: #61dafb;
 }
 
+.editform {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .editform__par {
   margin: 10px 0 30px;
   padding: 10px 15px;
@@ -346,12 +351,6 @@
     position: relative;
     margin: 60px 0 0;
     padding: 0;
-  }
-
-  .main__table caption {
-    position: absolute;
-    top: -70px;
-    left: 40%;
   }
 
 	table, thead, tbody, th, td, tr { 
@@ -398,4 +397,29 @@
 	td:nth-of-type(5):before { content: "DELETE"; }
 	td:nth-of-type(6):before { content: "EDIT"; }
   
+}
+
+@media screen and (max-width: 479px) {
+
+  .container {
+    padding: 30px;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .homelink {
+    margin: 0 0 15px;
+  }
+
+  .separator {
+    margin: 0 15px;
+  }
+
+  .main__table th, td {
+    padding-right: 15px;
+    word-wrap: break-word;
+  }
+
 }

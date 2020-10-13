@@ -120,21 +120,23 @@ const AddUser = (props) => {
           onChange={(event) => handleInputChange(event.target.name, event.target.value)}
         />
 
-        <button
-          type='submit'
-          className='main__button'
-          title='add user'
-        >
-          <i className="fas fa-user-plus"></i>
-        </button>
+        <div>
+          <button
+            type='submit'
+            className='main__button'
+            title='add user'
+          >
+            <i className="fas fa-user-plus"></i>
+          </button>
 
-        <button
-          type='reset'
-          className='main__button'
-          title='cancel'
-        >
-          <i className="fas fa-window-close"></i>
-        </button>
+          <button
+            type='reset'
+            className='main__button'
+            title='cancel'
+          >
+            <i className="fas fa-window-close"></i>
+          </button>
+        </div>
       </form>
 
       <div>

@@ -57,7 +57,7 @@ const EditUser = (props) => {
     <>
       <div className='modal-container'>
         <form
-          className='modal-content'
+          className='modal-content editform'
           onSubmit={handleSubmit}
           onReset={handleReset}
           style={{

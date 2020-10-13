@@ -56,9 +56,8 @@ const UsersList = (props) => {
         </p>
           :
           <>
+            <h1 className='table-caption'>Users list:</h1>
             <table className='main__table'>
-              <caption>Users list:</caption>
-
               <thead>
                 <tr>
                   {tableHead.map((value, index) =>
